@@ -3,7 +3,10 @@ FROM docker.io/cachyos/cachyos-v3:latest AS blublu-arch
 
 # Install packages Distrobox adds automatically, this speeds up first launch
 RUN sed -i 's/-march=native/-march=x86-64/g' /etc/makepkg.conf \
-    && pacman -Syu \
+    && pacman-key --init && pacman-key --populate \
+    && pacman -Syu --noconfirm \
+    && echo "root ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers \
+    && pacman -S --clean --clean \
     && pacman -S \
         adw-gtk-theme \
         bash-completion \
@@ -64,5 +67,6 @@ RUN git clone https://github.com/89luca89/distrobox.git --single-branch /tmp/dis
     wget https://github.com/1player/host-spawn/releases/download/$(cat /tmp/distrobox/distrobox-host-exec | grep host_spawn_version= | cut -d "\"" -f 2)/host-spawn-$(uname -m) -O /usr/bin/host-spawn && \
     chmod +x /usr/bin/host-spawn && \
     rm -drf /tmp/distrobox \
+    && sed -i '/root ALL=(ALL) NOPASSWD: ALL/d' /etc/sudoers \
     && rm -rf /tmp/* \
     && sed -i 's/-march=x86-64/-march=native/g' /etc/makepkg.conf
