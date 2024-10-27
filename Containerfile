@@ -55,6 +55,8 @@ RUN pacman -S \
     vulkan-radeon \
     wget \
     paru \
+    cachyos-v3/lib32-zlib-ng \
+    cachyos-v3/lib32-zlib-ng-compat \
     sdl12-compat \
     rav1e \
     xdg-desktop-portal-hyprland \
@@ -67,6 +69,7 @@ RUN pacman -S \
     xorg-xwayland \
     cachyos/umu-launcher \
     cachyos/cachyos-gaming-meta \
+    cachyos/proton-ge-custom \
     --noconfirm && \
     rm -rf /var/cache/pacman/pkg/*
 
