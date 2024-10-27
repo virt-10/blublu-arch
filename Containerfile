@@ -51,7 +51,6 @@ RUN sed -i 's/-march=native/-march=x86-64/g' /etc/makepkg.conf \
         vulkan-intel \
         vte-common \
         vulkan-radeon \
-        wget \
         paru \
         cachyos-v3/lib32-zlib-ng \
         cachyos-v3/lib32-zlib-ng-compat \
