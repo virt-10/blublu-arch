@@ -2,7 +2,7 @@ FROM docker.io/cachyos/cachyos-v3:latest AS blublu-arch
 
 
 # Install packages Distrobox adds automatically, this speeds up first launch
-RUN && sed -i 's/-march=native/-march=x86-64/g' /etc/makepkg.conf \
+RUN sed -i 's/-march=native/-march=x86-64/g' /etc/makepkg.conf \
     && pacman -Syu \
     && pacman -S \
         adw-gtk-theme \
