@@ -70,7 +70,7 @@ RUN git clone https://github.com/89luca89/distrobox.git --single-branch /tmp/dis
     && rm -rf /tmp/* \
     && sed -i 's/-march=x86-64/-march=native/g' /etc/makepkg.conf
 
-FROM docker.io/library/scratch:latest
+FROM scratch
 LABEL org.opencontainers.image.description="CachyOS-v3 box with xdg-open patches"
 COPY --from=blublu-arch / /
 CMD ["/usr/bin/bash"]
