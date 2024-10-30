@@ -1,0 +1,73 @@
+#!/bin/bash
+
+installer=""
+valid=false
+install_success=false
+add_launcher=false
+
+if [[ -n $1 ]]
+then
+    installer=$(readlink -e "$1")
+    if [[ -f ${installer} ]]
+    then
+        valid=true
+    else
+        echo "${1} is not a valid file."
+    fi
+else
+    echo "Please provide the path to the extracted DaVinci Resolve installer file."
+    echo "e.g. setup-davinci squashfs-root/AppRun"
+    exit
+fi
+
+if [[ ${valid} = true ]]
+then
+    # See https://github.com/zelikos/davincibox/issues/35
+    sudo QT_QPA_PLATFORM=minimal SKIP_PACKAGE_CHECK=1 "${installer}" -i -a -y
+    if [[ $? -eq 0 ]]; then
+        install_success=true
+    fi
+fi
+
+if [[ ${install_success} = true ]]
+then
+    # Patch davinci binaries to remove need for LD_PRELOAD workaround mentioned in
+    # https://www.reddit.com/r/voidlinux/comments/12g71x0/comment/l2cwo27/
+    echo "Patching resolve binaries..."
+    libs=(
+        /usr/lib64/libglib-2.0.so.0
+        /usr/lib64/libgdk_pixbuf-2.0.so.0
+        /usr/lib64/libgio-2.0.so.0
+        /usr/lib64/libgmodule-2.0.so.0
+    )
+    patchelf_args=""
+    for lib in "${libs[@]}"; do
+        patchelf_args="${patchelf_args} --add-needed ${lib} "
+    done
+    unset lib -v
+
+    # shellcheck disable=SC2086
+    find /opt/resolve/bin -executable -type f -exec sudo patchelf ${patchelf_args} {} \;
+    unset libs -v
+
+    # TODO: Better phrasing
+    echo "Add DaVinci Resolve launcher? Y/n"
+    read -r response
+    case "${response}" in
+        "n")    add_launcher=false;;
+        "N")    add_launcher=false;;
+        *)      add_launcher=true;;
+    esac
+
+    if [[ ${add_launcher} = true ]]
+    then
+        /usr/bin/add-davinci-launcher "${2}"
+    else
+        echo "To add a launcher for DaVinci Resolve later,"
+        echo "run add-davinci-launcher from within the container."
+        echo "Note: You will have to specify if it is running for"
+        echo "distrobox or for toolbox."
+        echo "e.g. add-davinci-launcher distrobox"
+        exit
+    fi
+fi
