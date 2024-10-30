@@ -1,4 +1,4 @@
-name: build-boxkit
+name: blublu-arch
 on:
   pull_request:
     branches:
@@ -38,7 +38,7 @@ jobs:
           images: |
             ${{ env.IMAGE_NAME }}
           labels: |
-            io.artifacthub.package.readme-url=https://raw.githubusercontent.com/virt-10/blublu-arch/main/README.md
+            io.artifacthub.package.readme-url=https://raw.githubusercontent.com/virt-10/blublu-boxes/main/boxes/Arch/README.md
 
       # Build image using Buildah action
       - name: Build Image
