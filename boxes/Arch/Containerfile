@@ -1,6 +1,5 @@
 FROM docker.io/cachyos/cachyos-v3:latest AS blublu-arch
 
-
 # Install packages Distrobox adds automatically, this speeds up first launch
 # Install portals and zlib-ng
 RUN sed -i 's/-march=native/-march=x86-64/g' /etc/makepkg.conf \
@@ -71,7 +70,7 @@ RUN git clone https://github.com/89luca89/distrobox.git --single-branch /tmp/dis
     && rm -rf /tmp/* \
     && sed -i 's/-march=x86-64/-march=native/g' /etc/makepkg.conf
 
-FROM scratch
+FROM docker.io/library/scratch:latest
 LABEL org.opencontainers.image.description="CachyOS-v3 box with xdg-open patches"
-COPY --from=rootfs / /
+COPY --from=blublu-arch / /
 CMD ["/usr/bin/bash"]
