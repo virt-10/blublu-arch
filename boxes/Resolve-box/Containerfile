@@ -59,4 +59,4 @@ RUN sed -i 's/-march=native/-march=x86-64/g' /etc/makepkg.conf \
     && sed -i 's/-march=x86-64/-march=native/g' /etc/makepkg.conf
 
 # Copy install scripts
-COPY boxes/Davincibox/system_files /
+COPY boxes/Resolve-box/system_files /

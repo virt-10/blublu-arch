@@ -9,9 +9,9 @@ on:
     branches:
       - main
     paths-ignore:
-      - "boxes/Arch/**/README.md"
+      - "boxes/Arch-box/**/README.md"
     paths:
-      - "boxes/Arch/**"
+      - "boxes/Arch-box/**"
 env:
   IMAGE_NAME: blublu-arch
   IMAGE_TAGS: latest

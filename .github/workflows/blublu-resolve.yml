@@ -9,9 +9,9 @@ on:
     branches:
       - main
     paths-ignore:
-      - "boxes/Davincibox/**/README.md"
+      - "boxes/Resolve-box/**/README.md"
     paths:
-      - "boxes/Davincibox/**"
+      - "boxes/Resolve-box/**"
 env:
   IMAGE_NAME: blublu-resolve
   IMAGE_TAGS: latest
