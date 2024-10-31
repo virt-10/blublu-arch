@@ -1,9 +1,5 @@
 FROM ghcr.io/virt-10/blublu-arch:latest AS blublu-resolve
 
-# Support Nvidia Container Runtime (https://developer.nvidia.com/nvidia-container-runtime)
-ENV NVIDIA_VISIBLE_DEVICES all
-ENV NVIDIA_DRIVER_CAPABILITIES all
-
 # Install dependencies
 RUN sed -i 's/-march=native/-march=x86-64/g' /etc/makepkg.conf \
     && pacman-key --init && pacman-key --populate \
