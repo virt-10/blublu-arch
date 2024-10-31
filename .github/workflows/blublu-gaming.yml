@@ -12,7 +12,7 @@ on:
       - "boxes/Gaming-box/**"
       - ".github/workflows/blublu-gaming.yml"
 env:
-  IMAGE_NAME: blublu-resolve
+  IMAGE_NAME: blublu-gaming
   IMAGE_TAGS: latest
   IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
 
