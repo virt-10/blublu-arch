@@ -1,0 +1,36 @@
+FROM ghcr.io/virt-10/blublu-arch:latest AS blublu-gaming
+
+# Install dependencies
+RUN sed -i 's/-march=native/-march=x86-64/g' /etc/makepkg.conf \
+    && pacman-key --init && pacman-key --populate \
+    && pacman -Syu --noconfirm \
+    && echo "root ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers \
+    && pacman -S --clean \
+    && pacman -S \
+        vulkan-tools \
+        lib32-vulkan-radeon \
+        libva-mesa-driver \
+        intel-media-driver \
+        vulkan-mesa-layers \
+        lib32-vulkan-mesa-layers \
+        lib32-libnm \
+        pipewire \
+        pipewire-pulse \
+        pipewire-alsa \
+        pipewire-jack \
+        wireplumber \
+        lib32-pipewire \
+        lib32-pipewire-jack \
+        lib32-libpulse \
+        glibc-locales \
+        cachyos-gaming-meta \
+        xdg-desktop-portal-hyprland \
+        xdg-desktop-portal-gtk \
+        xdg-user-dirs \
+        --noconfirm \
+    && rm -rf /var/cache/pacman/pkg/* \
+    && rm -rf /var/lib/pacman/sync/* \
+    && find /var/cache/pacman/ -type f -delete \
+    && sed -i '/root ALL=(ALL) NOPASSWD: ALL/d' /etc/sudoers \
+    && rm -rf /tmp/* \
+    && sed -i 's/-march=x86-64/-march=native/g' /etc/makepkg.conf
